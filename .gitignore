@@ -1,0 +1,84 @@
+# Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+db.sqlite3
+*.sqlite3
+
+# Local configuration files
+*.env
+*.env.*
+*.local
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Python
+*.py[cod]
+*.so
+
+# Environment-specific
+venv/
+ENV/
+env/
+.venv/
+venv.bak/
+env.bak/
+
+# pipenv
+Pipfile.lock
+
+# pyenv
+.python-version
+
+# tox
+.tox/
+
+# coverage
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+*.cover
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# pytest
+.cache/
+nosetests.xml
+*.cover
+
+# Django migrations
+*/migrations/*.pyc
+*/migrations/*.pyo
+
+# Static files
+/staticfiles/
+
+# Media files (Optional - You might want to keep these in the repo if they are important)
+# /media/
+
+# SASS/SCSS
+.sass-cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Django secret key (don't want this exposed)
+*.key
