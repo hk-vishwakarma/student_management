@@ -29,10 +29,7 @@ def login_user(request):
 
     return render(request, "login.html")
 
-def admin_dashboard(request):
-    # if request.user.role != "admin":
-    #     return redirect('login')
-    return render(request, "admin_dashboard.html")
+
 
 
 
