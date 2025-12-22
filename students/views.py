@@ -26,7 +26,8 @@ def add_student(request):
             user = User.objects.create_user(
                 username=username,
                 password=password,
-                email=email
+                email=email,
+                role='student'
             )
 
             # Create Student

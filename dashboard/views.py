@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 def admin_dashboard(request):
-    # if request.user.role != "admin":
-    #     return redirect('login')
+    if request.user.role != "admin":
+        return redirect('login')
     return render(request, "dashboard/admin_dashboard.html")
 
 def student_dashboard(request):
