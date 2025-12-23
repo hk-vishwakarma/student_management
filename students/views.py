@@ -2,10 +2,11 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.conf import settings
 from .forms import StudentForm
 from .models import Student
 from django.core.paginator import Paginator
+from accounts.models import User
 
 def add_student(request):
 
@@ -26,7 +27,6 @@ def add_student(request):
             user = User.objects.create_user(
                 username=username,
                 password=password,
-                email=email,
                 role='student'
             )
 

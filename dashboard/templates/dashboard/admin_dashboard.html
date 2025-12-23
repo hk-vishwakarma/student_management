@@ -103,11 +103,8 @@
             <i class="bi bi-speedometer2"></i> Dashboard
         </a>
 
-        <!-- <a href="{% url 'add_user' %}">
-            <i class="bi bi-person-plus"></i> Add Student / Teacher
-        </a> -->
 
-        <a href="{% url 'add_student' %}">
+        <a href="{% url 'students:add_student' %}">
             <i class="bi bi-person-plus"></i> Add Student
         </a>
 
@@ -115,7 +112,7 @@
             <i class="bi bi-person-plus"></i> Add Teacher
         </a>
 
-        <a href="{% url 'student_list' %}">
+        <a href="{% url 'students:student_list' %}">
             <i class="bi bi-people"></i> View Students
         </a>
 
@@ -161,7 +158,7 @@
                     <i class="bi bi-mortarboard mb-2"></i>
                     <h3>Total Students</h3>
                     <p class="text-muted">Manage all registered students</p>
-                    <a href="{% url 'student_list' %}" class="btn btn-primary btn-sm">View Students</a>
+                    <a href="{% url 'students:student_list' %}" class="btn btn-primary btn-sm">View Students</a>
                 </div>
             </div>
 
@@ -181,7 +178,7 @@
                     <i class="bi bi-person-plus mb-2"></i>
                     <h3>Add Student</h3>
                     <p class="text-muted">Student account creation</p>
-                    <a href="{% url 'add_student' %}" class="btn btn-success btn-sm">Add Student</a>
+                    <a href="{% url 'students:add_student' %}" class="btn btn-success btn-sm">Add Student</a>
                 </div>
             </div>
 

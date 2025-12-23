@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 def admin_dashboard(request):
-    if request.user.role != "admin":
+    if not request.user.is_superuser :
         return redirect('login')
     return render(request, "dashboard/admin_dashboard.html")
 

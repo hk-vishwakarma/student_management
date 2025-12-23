@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.conf import settings
 from .models import Teacher
 from django.http import HttpResponseForbidden
 from datetime import date
+from accounts.models import User
 
 from .models import Attendance, AttendanceRecord
 from students.models import Student
