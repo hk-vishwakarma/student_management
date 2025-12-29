@@ -7,6 +7,7 @@ from accounts.models import User
 
 from .models import Attendance, AttendanceRecord
 from students.models import Student
+from academics.models import SchoolClass, Subject
 from django.contrib import messages
 
 # Create your views here.
@@ -23,6 +24,11 @@ def add_teacher(request):
         address = request.POST['address']
         date_joined = request.POST['date_joined']
         profile_pic = request.FILES.get('profile_pic')
+
+        new_user = User.objects.filter(username = username)
+        if new_user.exists():
+            messages.error(request, "Username already exists !")
+            return redirect('teachers:add_teacher')
 
         # Create user
         user = User.objects.create_user(username=username, password=password, role='teacher')
@@ -50,48 +56,61 @@ def teacher_list(request):
 
 
 def take_attendance(request):
-    if request.user.role != 'teacher':
-        return HttpResponseForbidden("Access Denied")
-
+    classes = SchoolClass.objects.all()
     students = None
+    subjects = None
+    selected_class = None
+    selected_subject = None
 
-    # Load students
-    if request.method == 'GET' and 'class_name' in request.GET:
-        class_name = request.GET.get('class_name')
-        students = Student.objects.filter(student_class=class_name)
+    # ---------- GET: Load students & subjects ----------
+    if request.method == 'GET' and request.GET.get('class_id'):
+        class_id = request.GET.get('class_id')
+        selected_class = SchoolClass.objects.get(id=class_id)
+        subjects = Subject.objects.filter(school_class=selected_class)
 
-        if not students.exists():
-            messages.warning(request, "No students found for selected class.")
+        if request.GET.get('subject_id'):
+            selected_subject = Subject.objects.get(id=request.GET.get('subject_id'))
+            students = Student.objects.filter(student_class=selected_class)
 
-    # Save attendance
+            if not students.exists():
+                messages.warning(request, "No students found for this class.")
+
+    # ---------- POST: Save attendance ----------
     if request.method == 'POST':
-        class_name = request.POST.get('class_name')
-        subject = request.POST.get('subject')
-        today = date.today()
+        class_id = request.POST.get('class_id')
+        subject_id = request.POST.get('subject')
+
+        selected_class = SchoolClass.objects.get(id=class_id)
+        selected_subject = Subject.objects.get(id=subject_id)
 
         attendance, created = Attendance.objects.get_or_create(
-            class_name=class_name,
-            subject=subject,
+            class_name=selected_class,
+            subject=selected_subject,
             teacher=request.user,
-            date=today
+            date=date.today()
         )
 
         if not created:
-            messages.error(request, "Attendance already taken for today!")
-            return redirect('teachers:attendance')
+            messages.error(request, "Attendance already taken today!")
+            return redirect('teachers:attandence')
 
-        students = Student.objects.filter(student_class=class_name)
+        students = Student.objects.filter(student_class=selected_class)
 
         for student in students:
-            status_value = request.POST.get(f'attendance_{student.id}')
-
+            status = request.POST.get(f'attendance_{student.id}')
             AttendanceRecord.objects.create(
                 attendance=attendance,
                 student=student,
-                status=True if status_value == 'Present' else False
+                status=True if status == 'Present' else False
             )
 
         messages.success(request, "Attendance saved successfully!")
-        return redirect('teachers:attendance')
+        return redirect('teachers:attandence')
 
-    return render(request, 'teachers/attendance.html', {'students': students})
+    return render(request, 'teachers/attendance.html', {
+        'classes': classes,
+        'subjects': subjects,
+        'students': students,
+        'selected_class': selected_class,
+        'selected_subject': selected_subject,
+    })

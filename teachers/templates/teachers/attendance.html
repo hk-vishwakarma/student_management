@@ -47,33 +47,44 @@
 
     <!-- ================= CLASS & SUBJECT SELECTION (GET) ================= -->
     <div class="container-box mb-4">
-        <form method="GET">
-            <div class="row g-3">
+        <form method="GET" class="row g-3">
+        
+            <!-- CLASS -->
+            <div class="col-md-4">
+                <label class="form-label">Class</label>
+                <select name="class_id" class="form-select" onchange="this.form.submit()" required>
+                    <option value="">Select Class</option>
+                    {% for cls in classes %}
+                    <option value="{{ cls.id }}" {% if selected_class and selected_class.id == cls.id %}selected{% endif %}>
+                        {{ cls.name }}
+                    </option>
 
-                <div class="col-md-4">
-                    <label class="form-label">Class</label>
-                    <select name="class_name" class="form-select" required>
-                        <option value="">Select Class</option>
-                        <option value="Class 9" {% if request.GET.class_name == "Class 9" %}selected{% endif %}>Class 9</option>
-                        <option value="Class 10" {% if request.GET.class_name == "Class 10" %}selected{% endif %}>Class 10</option>
-                    </select>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Subject</label>
-                    <select name="subject" class="form-select" required>
-                        <option value="">Select Subject</option>
-                        <option value="Math" {% if request.GET.subject == "Math" %}selected{% endif %}>Math</option>
-                        <option value="Science" {% if request.GET.subject == "Science" %}selected{% endif %}>Science</option>
-                    </select>
-                </div>
-
-                <div class="col-md-4 d-flex align-items-end">
-                    <button class="btn btn-primary w-100">Load Students</button>
-                </div>
-
+                    {% endfor %}
+                </select>
             </div>
+        
+            <!-- SUBJECT -->
+            <div class="col-md-4">
+                <label class="form-label">Subject</label>
+                <select name="subject_id" class="form-select" required>
+                    <option value="">Select Subject</option>
+                
+                    {% if subjects %}
+                    {% for sub in subjects %}
+                    <option value="{{ sub.id }}" {% if selected_subject and selected_subject.id == sub.id %} selected {% endif %}>
+                        {{ sub.name }}
+                    </option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+        
+            <div class="col-md-4 d-flex align-items-end">
+                <button class="btn btn-primary w-100">Load Students</button>
+            </div>
+        
         </form>
+
     </div>
 
     <!-- ================= STUDENT LIST + ATTENDANCE (POST) ================= -->
@@ -83,8 +94,8 @@
             {% csrf_token %}
 
             <!-- Hidden values to send again -->
-            <input type="hidden" name="class_name" value="{{ request.GET.class_name }}">
-            <input type="hidden" name="subject" value="{{ request.GET.subject }}">
+            <input type="hidden" name="class_id" value="{{ selected_class.id }}">
+            <input type="hidden" name="subject" value="{{ selected_subject.id }}">
 
             <table class="table table-bordered text-center align-middle">
                 <thead>
@@ -100,7 +111,7 @@
                 {% for student in students %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ student.user.first_name }} {{ student.user.last_name }}</td>
+                        <td>{{ student.full_name}}</td>
                         <td>{{ student.roll_no }}</td>
                         <td>
                             <div class="form-check form-check-inline">

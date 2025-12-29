@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from students.models import Student
+from academics.models import SchoolClass, Subject
 
 # Create your models here.
 class Teacher(models.Model):
@@ -19,8 +20,9 @@ class Teacher(models.Model):
 class Attendance(models.Model):
     date = models.DateField(auto_now_add=True)
 
-    class_name = models.CharField(max_length=50)
-    subject = models.CharField(max_length=100)
+    class_name = models.ForeignKey(SchoolClass, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+
 
     teacher = models.ForeignKey(
         settings.AUTH_USER_MODEL,
