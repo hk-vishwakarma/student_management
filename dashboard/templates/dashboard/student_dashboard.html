@@ -78,7 +78,7 @@
 
     <!-- Main Content -->
     <div class="dashboard-content">
-        <h2 class="mb-4">Welcome, {{ request.user.first_name }}</h2>
+        <h2 class="mb-4">Welcome, {{ request.user.full_name }}</h2>
 
         <div class="row g-4">
 
@@ -110,7 +110,7 @@
                 <div class="card-box">
                     <h3 class="card-title">Results</h3>
                     <p class="text-muted">View your exam results</p>
-                    <a href="#" class="btn btn-info btn-sm text-white">View Results</a>
+                    <a href="{% url 'students:view_marks' %}" class="btn btn-info btn-sm text-white">View Results</a>
                 </div>
             </div>
 

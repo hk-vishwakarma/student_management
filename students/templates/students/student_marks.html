@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}My Marks{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">📊 My Exam Results</h2>
+
+
+{% if marks_by_exam %}
+
+{% for exam, marks in marks_by_exam.items %}
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <strong>{{ exam.name }}</strong>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Marks Obtained</th>
+                    <th>Total Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mark in marks %}
+                <tr>
+                    <td>{{ mark.subject.name }}</td>
+                    <td>{{ mark.marks_obtained }}</td>
+                    <td>{{ mark.max_marks }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endfor %}
+
+{% else %}
+<p class="alert alert-warning">No marks available yet.</p>
+{% endif %}
+
+{% endblock %}

@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 from accounts.models import User
 from django.contrib import messages
 from academics.models import SchoolClass, Subject
-from teachers.models import AttendanceRecord
+from teachers.models import AttendanceRecord, Marks, Exam
 
 
 def add_student(request):
@@ -32,6 +32,7 @@ def add_student(request):
         
         
         user =  User.objects.create_user(
+            full_name = full_name,
             username = username,
             password = password,
             role='student'
@@ -80,11 +81,14 @@ def student_attendance(request):
     attendance_records = AttendanceRecord.objects.filter(student=student).select_related(
         'attendance', 'attendance__subject'
     )
+    
 
     if subject_id:
-        attendance_records = attendance_records.filter(
-            attendance__subject_id=subject_id
-        )
+        # attendance_records = attendance_records.filter(
+        #     attendance__subject_id=subject_id
+        # )
+        subject = Subject.objects.get(id = subject_id)
+        attendance_records = attendance_records.filter(attendance__subject = subject)
 
     subjects = Subject.objects.filter(school_class=student.student_class)
 
@@ -95,3 +99,47 @@ def student_attendance(request):
     }
 
     return render(request, 'students/attendance.html', context)
+
+
+# def student_marks(request):
+#     student = Student.objects.get(user=request.user) 
+    
+#     exams = Exam.objects.filter(student_class=student.student_class)
+#     marks_by_exam= None
+
+
+#     if request.method == 'GET' and request.GET.get('exam_id'):
+#         selected_exam = Exam.objects.filter(id = request.GET.get('exam_id'))
+#         marks_by_exam = Marks.objects.filter(student = student,exam = selected_exam )
+
+
+    
+
+#     return render(
+#         request,
+#         'students/student_marks.html',
+#         {'marks_by_exam': marks_by_exam, 'exams':exams}
+#     )
+
+
+def student_marks(request):
+    student = Student.objects.get(user=request.user)
+
+    exams = Exam.objects.filter(student_class=student.student_class)
+
+    marks_by_exam = {}
+
+    for exam in exams:
+        marks = Marks.objects.filter(
+            student=student,
+            exam=exam
+        ).select_related('subject')
+
+        if marks.exists():
+            marks_by_exam[exam] = marks
+
+    return render(
+        request,
+        'students/student_marks.html',
+        {'marks_by_exam': marks_by_exam}
+    )

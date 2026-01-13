@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from students.models import Student
 from academics.models import SchoolClass, Subject
+from accounts.models import User
 
 # Create your models here.
 class Teacher(models.Model):
@@ -52,3 +53,27 @@ class AttendanceRecord(models.Model):
 
     def __str__(self):
         return f"{self.student.user.username} - {'Present' if self.status else 'Absent'}"
+
+
+# To save the marks of the students
+class Exam(models.Model):
+    name = models.CharField(max_length=100)  # Unit Test, Midterm, Final
+    student_class = models.ForeignKey(SchoolClass, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} - {self.student_class.name}"
+
+
+class Marks(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    marks_obtained = models.FloatField()
+    max_marks = models.FloatField(default=100)
+
+    created_at = models.DateField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('student', 'subject', 'exam')
