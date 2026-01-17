@@ -70,17 +70,17 @@
         <a href="{% url 'teacher_dashboard' %}">🏠 Dashboard</a>
         <a href="#">📚 My Subjects</a>
         <a href="#">📝 Assignments</a>
-        <a href="#">📅 Attendance</a>
-        <a href="#">👨‍🎓 Students List</a>
-        <a href="#">💬 Announcements</a>
-        <a href="#">👤 Profile</a>
+        <a href="{% url "teachers:attandence" %}">📅 Attendance</a>
+        {% comment %} <a href="#">👨‍🎓 Students List</a> {% endcomment %}
+        {% comment %} <a href="#">💬 Announcements</a> {% endcomment %}
+        {% comment %} <a href="#">👤 Profile</a> {% endcomment %}
         <a href="/logout/">🚪 Logout</a>
     </div>
 
     <!-- Main Dashboard Content -->
     <div class="dashboard-content">
 
-        <h2 class="mb-4">Welcome, {{ request.user.full_name }}</h2>
+        <h2 class="mb-4">Welcome {{ request.user.full_name }}</h2>
 
         <div class="row g-4">
 
@@ -104,11 +104,11 @@
                 <div class="card-box">
                     <h3 class="card-title">Take Attendance</h3>
                     <p class="text-muted">Record daily student attendance</p>
-                    <a href="#" class="btn btn-warning btn-sm">Take Attendance</a>
+                    <a href="{% url "teachers:attandence" %}" class="btn btn-warning btn-sm">Take Attendance</a>
                 </div>
             </div>
 
-            <div class="col-md-4">
+            {% comment %} <div class="col-md-4">
                 <div class="card-box">
                     <h3 class="card-title">Students List</h3>
                     <p class="text-muted">View all students from your classes</p>
@@ -122,7 +122,17 @@
                     <p class="text-muted">Send important messages to students</p>
                     <a href="#" class="btn btn-dark btn-sm">Create Announcement</a>
                 </div>
+            </div> {% endcomment %}
+
+            <div class="col-md-4">
+                <div class="card-box">
+                    <h3 class="card-title">Add Marks</h3>
+                    <p class="text-muted">Add marks to the students</p>
+                    <a href="{% url "teachers:add_marks" %}" class="btn btn-dark btn-sm">Add Marks</a>
+                </div>
             </div>
+
+
 
         </div>
 

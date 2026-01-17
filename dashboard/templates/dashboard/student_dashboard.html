@@ -68,17 +68,17 @@
         <h4 class="text-center text-white mb-4">Student Panel</h4>
 
         <a href="{% url 'student_dashboard' %}">🏠 Dashboard</a>
-        <a href="#">📝 My Attendance</a>
-        <a href="#">📚 My Courses</a>
-        <a href="#">📄 Assignments</a>
-        <a href="#">📊 Results</a>
-        <a href="#">👤 Profile</a>
+        <a href="{% url "students:attendance" %}">📝 My Attendance</a>
+        {% comment %} <a href="#">📚 My Courses</a> {% endcomment %}
+        {% comment %} <a href="#">📄 Assignments</a> {% endcomment %}
+        <a href="{% url 'students:view_marks' %}">📊 Results</a>
+        {% comment %} <a href="#">👤 Profile</a> {% endcomment %}
         <a href="/logout/">🚪 Logout</a>
     </div>
 
     <!-- Main Content -->
     <div class="dashboard-content">
-        <h2 class="mb-4">Welcome, {{ request.user.full_name }}</h2>
+        <h2 class="mb-4">Welcome {{ request.user.full_name }}</h2>
 
         <div class="row g-4">
 
@@ -86,11 +86,11 @@
                 <div class="card-box">
                     <h3 class="card-title">My Attendance</h3>
                     <p class="text-muted">View your monthly attendance</p>
-                    <a href="#" class="btn btn-primary btn-sm">View Attendance</a>
+                    <a href="{% url "students:attendance" %}" class="btn btn-primary btn-sm">View Attendance</a>
                 </div>
             </div>
 
-            <div class="col-md-4">
+            {% comment %} <div class="col-md-4">
                 <div class="card-box">
                     <h3 class="card-title">My Courses</h3>
                     <p class="text-muted">Check enrolled current courses</p>
@@ -104,7 +104,7 @@
                     <p class="text-muted">Download or upload assignment work</p>
                     <a href="#" class="btn btn-success btn-sm">Manage Assignments</a>
                 </div>
-            </div>
+            </div> {% endcomment %}
 
             <div class="col-md-4">
                 <div class="card-box">

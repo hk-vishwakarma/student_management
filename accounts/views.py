@@ -6,6 +6,8 @@ from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 def login_user(request):
+
+    messages.warning(request, " For Demo Use these login credentials :- \nadmin :- username : admin | password : 123 \nteacher:- username : Teacher | password : 123 \nstudent:- username : Student | password : 123 ")
     
     if request.method == "POST":
         username = request.POST.get('username')
@@ -27,6 +29,8 @@ def login_user(request):
 
         else:
             messages.error(request, "Invalid username or password")
+
+        
 
     return render(request, "login.html")
 
