@@ -9,7 +9,7 @@ class SchoolClass(models.Model):
 
 
 class Subject(models.Model):
-    school_class = models.ForeignKey(SchoolClass, on_delete=models.CASCADE, related_name='subjects')
+    school_class = models.ForeignKey("academics.SchoolClass", on_delete=models.CASCADE, related_name='subjects')
     name = models.CharField(max_length=100)
 
     def __str__(self):

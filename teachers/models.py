@@ -21,8 +21,8 @@ class Teacher(models.Model):
 class Attendance(models.Model):
     date = models.DateField(auto_now_add=True)
 
-    class_name = models.ForeignKey(SchoolClass, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    class_name = models.ForeignKey("academics.SchoolClass", on_delete=models.CASCADE)
+    subject = models.ForeignKey("academics.Subject", on_delete=models.CASCADE)
 
 
     teacher = models.ForeignKey(
@@ -45,7 +45,7 @@ class AttendanceRecord(models.Model):
     )
 
     student = models.ForeignKey(
-        Student,
+        "students.Student",
         on_delete=models.CASCADE
     )
 
@@ -65,10 +65,10 @@ class Exam(models.Model):
 
 
 class Marks(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    student = models.ForeignKey("students.Student", on_delete=models.CASCADE)
+    subject = models.ForeignKey("academics.Subject", on_delete=models.CASCADE)
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    teacher = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
 
     marks_obtained = models.FloatField()
     max_marks = models.FloatField(default=100)

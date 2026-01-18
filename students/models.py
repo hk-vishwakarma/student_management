@@ -7,7 +7,7 @@ class Student(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     full_name = models.CharField(max_length=200)
-    student_class = models.ForeignKey(SchoolClass, on_delete=models.CASCADE)
+    student_class = models.ForeignKey("academics.SchoolClass", on_delete=models.CASCADE)
     roll_no = models.CharField(max_length=20)
     dob = models.DateField(null=True, blank=True)
     address = models.TextField(blank=True)
